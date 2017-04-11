@@ -191,7 +191,7 @@ public class SmartAI2 {
 					}
 					else if(oppoMaxLevel >= 2.2 && selfMaxLevel < oppoMaxLevel){
 						if (oppoLevel >= 2.2) {
-							winner[i][j] = recursionCompute(board, step + 1, 0);
+							winner[i][j] = recursionCompute(board, step + 1, depth + 1);
 						} else{
 							if (step % 2 == 0)
 								winner[i][j] = 1;
@@ -201,14 +201,14 @@ public class SmartAI2 {
 					}
 					else if(selfMaxLevel >= 1.8 && selfMaxLevel >= oppoMaxLevel){
 						if (selfLevel >= 1.8){
-							winner[i][j] = recursionCompute(board, step + 1, 0);
+							winner[i][j] = recursionCompute(board, step + 1, depth + 1);
 						}
 					}
 					else if(oppoMaxLevel >= 1.8 && selfMaxLevel < oppoMaxLevel){
 						if (oppoLevel >= 1.8) {
-							winner[i][j] = recursionCompute(board, step + 1, 0);
+							winner[i][j] = recursionCompute(board, step + 1, depth + 1);
 						} else if(selfLevel >= 1.3 && selfLevel <= 1.6 ){
-							winner[i][j] = recursionCompute(board, step + 1, 0);
+							winner[i][j] = recursionCompute(board, step + 1, depth + 1);
 						}
 						else {
 							if (step % 2 == 0)
