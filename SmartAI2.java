@@ -48,7 +48,7 @@ public class SmartAI2 {
 							if (oppoLevel >= 5)
 								winner[i][j] = recursionCompute(board, step + 1, 0);
 						}
-						else if(selfMaxLevel >= 1.8 && selfMaxLevel >= oppoMaxLevel){
+						else if(selfMaxLevel >= 2.2 && selfMaxLevel >= oppoMaxLevel){
 							if (selfLevel == selfMaxLevel){
 								if (step % 2 == 0)
 									winner[i][j] = 2;
@@ -56,10 +56,28 @@ public class SmartAI2 {
 									winner[i][j] = 1;
 							}
 						}
+						else if(oppoMaxLevel >= 2.2 && selfMaxLevel < oppoMaxLevel){
+							if (oppoLevel >= 2.2) {
+								winner[i][j] = recursionCompute(board, step + 1, 0);
+							} else{
+								if (step % 2 == 0)
+									winner[i][j] = 1;
+								else
+									winner[i][j] = 2;
+							}
+						}
+						else if(selfMaxLevel >= 1.8 && selfMaxLevel >= oppoMaxLevel){
+							if (selfLevel >= 1.8){
+								winner[i][j] = recursionCompute(board, step + 1, 0);
+							}
+						}
 						else if(oppoMaxLevel >= 1.8 && selfMaxLevel < oppoMaxLevel){
 							if (oppoLevel >= 1.8) {
 								winner[i][j] = recursionCompute(board, step + 1, 0);
-							} else{
+							} else if(selfLevel >= 1.3 && selfLevel <= 1.6 ){
+								winner[i][j] = recursionCompute(board, step + 1, 0);
+							}
+							else {
 								if (step % 2 == 0)
 									winner[i][j] = 1;
 								else
@@ -163,16 +181,36 @@ public class SmartAI2 {
 								winner[i][j] = 2;
 						}
 					}
+					else if(selfMaxLevel >= 2.2 && selfMaxLevel >= oppoMaxLevel){
+						if (selfLevel == selfMaxLevel){
+							if (step % 2 == 0)
+								winner[i][j] = 2;
+							else 
+								winner[i][j] = 1;
+						}
+					}
+					else if(oppoMaxLevel >= 2.2 && selfMaxLevel < oppoMaxLevel){
+						if (oppoLevel >= 2.2) {
+							winner[i][j] = recursionCompute(board, step + 1, 0);
+						} else{
+							if (step % 2 == 0)
+								winner[i][j] = 1;
+							else
+								winner[i][j] = 2;
+						}
+					}
 					else if(selfMaxLevel >= 1.8 && selfMaxLevel >= oppoMaxLevel){
-						if (selfLevel == selfMaxLevel) {
-							if (step % 2 == 0) return 2;
-							else return 1;
+						if (selfLevel >= 1.8){
+							winner[i][j] = recursionCompute(board, step + 1, 0);
 						}
 					}
 					else if(oppoMaxLevel >= 1.8 && selfMaxLevel < oppoMaxLevel){
 						if (oppoLevel >= 1.8) {
-							winner[i][j] = recursionCompute(board, step + 1, depth + 1);
-						} else{
+							winner[i][j] = recursionCompute(board, step + 1, 0);
+						} else if(selfLevel >= 1.3 && selfLevel <= 1.6 ){
+							winner[i][j] = recursionCompute(board, step + 1, 0);
+						}
+						else {
 							if (step % 2 == 0)
 								winner[i][j] = 1;
 							else
