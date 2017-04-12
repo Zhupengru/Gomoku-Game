@@ -1,5 +1,7 @@
 package Gomoku;
 
+import java.util.ArrayList;
+
 public class SmartAI2 {
 	public static int[] nextStep(int[][] board, int step) {
 		int[] next = new int[2];
@@ -7,6 +9,8 @@ public class SmartAI2 {
 			first10step(board, next, step);
 		else {
 			double selflevel = 0, oppolevel = 0, selfMaxLevel = 0, oppoMaxLevel = 0;
+			ArrayList<Integer> row = new ArrayList<Integer>();
+			ArrayList<Integer> col = new ArrayList<Integer>();
 			for (int i = 0; i < 15; i++) {
 				for (int j = 0; j < 15; j++) {
 					if (board[i][j] == 0) {
@@ -32,6 +36,7 @@ public class SmartAI2 {
 			}
 			
 			int[][] winner = new int[15][15];
+			int[][] toWin = new int[15][15];
 			for (int i = 0; i < 15; i++) {
 				for (int j = 0; j < 15; j++) {
 					if (board[i][j] == 0) {
@@ -46,7 +51,7 @@ public class SmartAI2 {
 						}
 						else if (oppoMaxLevel >= 5){
 							if (oppoLevel >= 5)
-								winner[i][j] = recursionCompute(board, step + 1, 0);
+								first10step(board, next, step);
 						}
 						else if(selfMaxLevel >= 2.2 && selfMaxLevel >= oppoMaxLevel){
 							if (selfLevel == selfMaxLevel){
@@ -105,11 +110,16 @@ public class SmartAI2 {
 			for (int i = 0; i < 15; i++) {
 				for (int j = 0; j < 15; j++) {
 					if (winner[i][j] < 3 & winner[i][j] > 0 && winner[i][j] % 2 == step % 2) {
-						next[0] = i;
-						next[1] = j;
-						return next;
+						row.add(i);
+						col.add(j);
+						
 					}
 				}
+			}
+			if (row.size() > 0){
+				next[0] = row.get((int)(Math.random() * (row.size() - 1)));
+				next[1] = col.get((int)(Math.random() * (col.size() - 1)));
+				return next;
 			}
 
 			first10step(board, next, step);
@@ -120,11 +130,14 @@ public class SmartAI2 {
 				for (int i = 0; i < 15; i++) {
 					for (int j = 0; j < 15; j++) {
 						if (winner[i][j] == 3) {
-							next[0] = i;
-							next[1] = j;
-							return next;
+							row.add(i);
+							col.add(j);
 						}
 					}
+				}
+				if (row.size() > 0){
+					next[0] = row.get((int)(Math.random() * (row.size() - 1)));
+					next[1] = col.get((int)(Math.random() * (col.size() - 1)));
 				}
 			}
 			System.out.println("use simple rule "+ next[0] + "  " + next[1]);
@@ -135,7 +148,7 @@ public class SmartAI2 {
 	}
 
 	public static int recursionCompute(int[][] initboard, int step, int depth) {
-		if (depth > 10)
+		if (depth > 8)
 			return 3;
 		int[][] board = new int[15][15];
 		int[][] winner = new int[15][15];
@@ -278,6 +291,8 @@ public class SmartAI2 {
 	public static int[] first10step(int[][] board, int[] next, int step) {
 		double[][] selflevel = new double[15][15];
 		double[][] oppolevel = new double[15][15];
+		ArrayList<Integer> row = new ArrayList<Integer>();
+		ArrayList<Integer> col = new ArrayList<Integer>();
 		double selfMaxLevel = 0;
 		double oppoMaxLevel = 0;
 		if (step == 2) {
@@ -304,7 +319,8 @@ public class SmartAI2 {
 			return next;
 		}
 
-		int tempi = 0, tempj = 0; 
+		int tempi = 0, tempj = 0;
+		
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
 				if (board[i][j] == 0) {
@@ -361,11 +377,28 @@ public class SmartAI2 {
 			return next;
 		}
 		
-		if (selfMaxLevel >= oppoMaxLevel)
+		if (selfMaxLevel >= oppoMaxLevel){
+			for (int i = 0; i < 15; i++){
+				for (int j = 0; j < 15; j++){
+					if (selflevel[i][j] == selfMaxLevel){
+						row.add(i); col.add(j);
+					}
+				}
+			}
+			next[0] = row.get((int)(Math.random() * (row.size() - 1)));
+			next[1] = col.get((int)(Math.random() * (col.size() - 1)));
 			return next;
+		}
 		else {
-			next[0] = tempi;
-			next[1] = tempj;
+			for (int i = 0; i < 15; i++){
+				for (int j = 0; j < 15; j++){
+					if (oppolevel[i][j] == oppoMaxLevel){
+						row.add(i); col.add(j);
+					}
+				}
+			}
+			next[0] = row.get((int)(Math.random() * (row.size() - 1)));
+			next[1] = col.get((int)(Math.random() * (col.size() - 1)));
 			return next;
 		}
 	}
